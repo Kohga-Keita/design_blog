@@ -23,7 +23,7 @@
 
               <v-card-actions>
                 <v-spacer />
-                <v-btn text color="primary">この記事をみる</v-btn>
+                <v-btn text color="primary" :to="linkTo(post)">この記事をみる</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -38,6 +38,11 @@
 import client from "~/plugins/contentful";
 
 export default {
+  computed: {
+    linkTo: () => obj => {
+      return { name: "posts-slug", params: { slug: obj.fields.slug } };
+    }
+  },
   async asyncData({ env }) {
     let posts = [];
     await client
