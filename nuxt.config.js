@@ -1,5 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
+require('dotenv').config()
+
 export default {
   mode: 'universal',
   /*
@@ -30,7 +32,15 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    'plugins/vuetify',
+    'plugins/contentful'
   ],
+  env: {
+    // contentful
+    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
+    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
+    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN
+  },
   /*
   ** Nuxt.js dev-modules
   */
@@ -41,6 +51,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/vuetify',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** vuetify module configuration
@@ -70,7 +82,8 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    transpile: ['vuetify/lib'],
+    extend(config, ctx) {
     }
   }
 }
