@@ -30,6 +30,27 @@ export default {
       'getContentful'
     ]
   },
+  // generate: {
+  //   routes() {
+  //     return Promise.all([
+  //       client.getEntries({
+  //         content_type: process.env.CTF_BLOG_POST_TYPE_ID
+  //       }),
+  //       client.getEntries({        							// 追記
+  //         content_type: 'category'
+  //       })
+  //     ]).then(([posts, categories]) => {        // 追記
+  //       return [
+  //         ...posts.items.map((post) => {
+  //           return { route: `posts/${post.fields.slug}`, payload: post }
+  //         }),
+  //         ...categories.items.map((category) => {        // 追記
+  //           return { route: `categories/${category.fields.slug}`, payload: category }
+  //         })
+  //       ]
+  //     })
+  //   }
+  // },
   /*
   ** Customize the progress-bar color
   */
@@ -44,7 +65,8 @@ export default {
   */
   plugins: [
     'plugins/vuetify',
-    'plugins/contentful'
+    'plugins/contentful',
+    'plugins/components'
   ],
   /*
   ** Nuxt.js dev-modules
