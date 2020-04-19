@@ -3,13 +3,11 @@
     <template #item="props">
       <v-breadcrumbs-item
         :to="props.item.to"
+        active-class
+        exact-active-class="v-breadcrumbs__item--disabled"
       >
-        <v-icon v-if="props.item.icon" color="primary">
-          {{ props.item.icon }}
-        </v-icon>
-        <span class="ml-1">
-          {{ props.item.text }}
-        </span>
+        <v-icon v-if="props.item.icon" color="primary">{{ props.item.icon }}</v-icon>
+        <span class="ml-1">{{ props.item.text }}</span>
       </v-breadcrumbs-item>
     </template>
     <template #divider>
@@ -23,18 +21,18 @@ export default {
   props: {
     addItems: {
       type: Array,
-      default() { return [] }
+      default() {
+        return [];
+      }
     }
   },
   data: () => ({
-    items: [
-      { icon: 'mdi-home', text: 'ホーム', to: '/' }
-    ]
+    items: [{ icon: "mdi-home", text: "ホーム", to: "/" }]
   }),
   computed: {
     breadcrumbs() {
-      return this.items.concat(this.addItems)
+      return this.items.concat(this.addItems);
     }
   }
-}
+};
 </script>
