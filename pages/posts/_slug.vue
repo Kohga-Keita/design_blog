@@ -3,30 +3,23 @@
     <template v-if="currentPost">
       {{ currentPost.fields.title }}
       <v-img
-        :src="currentPost.fields.image.fields.file.url"
-        :alt="currentPost.fields.image.fields.title"
+        :src="setEyeCatch(currentPost).url"
+        :alt="setEyeCatch(currentPost).title"
         :aspect-ratio="16/9"
         width="700"
         height="400"
         class="mx-auto"
       />
-      {{ currentPost.fields.publishDate }}<br>
+      {{ currentPost.fields.publishDate }}
+      <br />
       {{ currentPost.fields.body }}
     </template>
 
-    <template v-else>
-      お探しの記事は見つかりませんでした。
-    </template>
+    <template v-else>お探しの記事は見つかりませんでした。</template>
 
     <div>
-      <v-btn
-        outlined
-        color="primary"
-        to="/"
-      >
-        <v-icon size="16">
-          fas fa-angle-double-left
-        </v-icon>
+      <v-btn outlined color="primary" to="/">
+        <v-icon size="16">fas fa-angle-double-left</v-icon>
         <span class="ml-1">ホームへ戻る</span>
       </v-btn>
     </div>
@@ -34,17 +27,22 @@
 </template>
 
 <script>
-import client from '~/plugins/contentful'
+import { mapGetters } from "vuex";
 
 export default {
-  async asyncData({ env, params }) {
-    let currentPost = null
-    await client.getEntries({
-      content_type: env.CTF_BLOG_POST_TYPE_ID,
-      'fields.slug': params.slug
-    }).then(res => (currentPost = res.items[0])).catch(console.error)
+  computed: {
+    ...mapGetters(["setEyeCatch"])
+  },
+  async asyncData({ payload, store, params, error }) {
+    const currentPost =
+      payload ||
+      (await store.state.posts.find(post => post.fields.slug === params.slug));
 
-    return { currentPost }
+    if (currentPost) {
+      return { currentPost };
+    } else {
+      return error({ statusCode: 400 });
+    }
   }
-}
+};
 </script>

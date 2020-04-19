@@ -20,6 +20,19 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    // contentful
+    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
+    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
+    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN,
+    CTF_PREVIEW_ACCESS_TOKEN: process.env.CTF_PREVIEW_ACCESS_TOKEN
+  },
+  axios: {},
+  router: {
+    middleware: [
+      'getContentful'
+    ]
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -36,23 +49,19 @@ export default {
     'plugins/vuetify',
     'plugins/contentful'
   ],
-  env: {
-    // contentful
-    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
-    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
-    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN
-  },
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/axios',
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/dotenv'
   ],
   /*
   ** vuetify module configuration

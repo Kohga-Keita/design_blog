@@ -6,8 +6,8 @@
           <v-col v-for="(post, i) in posts" :key="i" cols="12" sm="6" lg="4" xl="3">
             <v-card max-width="400" class="mx-auto">
               <v-img
-                :src="post.fields.image.fields.file.url"
-                :alt="post.fields.image.fields.title"
+                :src="setEyeCatch(post).url"
+                :alt="setEyeCatch(post).title"
                 :aspect-ratio="16/9"
                 max-height="200"
                 class="white--text"
@@ -15,7 +15,10 @@
                 <v-card-title class="align-end fill-height font-weight-bold">{{ post.fields.title }}</v-card-title>
               </v-img>
 
-              <v-card-text>{{ post.fields.publishDate }}</v-card-text>
+              <v-card-text>
+                {{ post.fields.publishDate }}
+                <span :is="draftChip(post)" />
+              </v-card-text>
 
               <v-list-item three-line style="min-height: unset;">
                 <v-list-item-subtitle>{{ post.fields.body }}</v-list-item-subtitle>
@@ -36,23 +39,18 @@
 
 <script>
 import client from "~/plugins/contentful";
+import draftChip from "~/components/posts/draftChip";
+
+import { mapState, mapGetters } from "vuex";
 
 export default {
-  computed: {
-    linkTo: () => obj => {
-      return { name: "posts-slug", params: { slug: obj.fields.slug } };
-    }
+  components: {
+    followBtns,
+    draftChip
   },
-  async asyncData({ env }) {
-    let posts = [];
-    await client
-      .getEntries({
-        content_type: env.CTF_BLOG_POST_TYPE_ID,
-        order: "-fields.publishDate"
-      })
-      .then(res => (posts = res.items))
-      .catch(console.error);
-    return { posts };
+  computed: {
+    ...mapState(["posts"]),
+    ...mapGetters(["setEyeCatch", "draftChip", "linkTo"])
   }
 };
 </script>
