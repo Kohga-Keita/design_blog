@@ -16,8 +16,8 @@ export const getters = {
     draftChip: () => (post) => {
         if (!post.fields.publishDate) return 'draftChip'
     },
-    linkTo: () => (obj) => {
-        return { name: 'posts-slug', params: { slug: obj.fields.slug } }
+    linkTo: () => (name, obj) => {
+        return { name: `${name}-slug`, params: { slug: obj.fields.slug } }
     }
 }
 
