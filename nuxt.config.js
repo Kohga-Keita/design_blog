@@ -4,6 +4,12 @@ require('dotenv').config()
 
 export default {
   mode: 'universal',
+  env: {
+    // contentful
+    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
+    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
+    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN
+  },
   /*
   ** Headers of the page
   */
@@ -17,6 +23,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ]
+  },
+  router: {
+    middleware: [
+      'getContentful'
     ]
   },
   /*
@@ -35,12 +46,6 @@ export default {
     'plugins/vuetify',
     'plugins/contentful'
   ],
-  env: {
-    // contentful
-    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
-    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
-    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN
-  },
   /*
   ** Nuxt.js dev-modules
   */
