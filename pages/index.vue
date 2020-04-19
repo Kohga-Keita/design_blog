@@ -6,8 +6,8 @@
           <v-col v-for="(post, i) in posts" :key="i" cols="12" sm="6" lg="4" xl="3">
             <v-card max-width="400" class="mx-auto">
               <v-img
-                :src="post.fields.image.fields.file.url"
-                :alt="post.fields.image.fields.title"
+                :src="setEyeCatch(post).url"
+                :alt="setEyeCatch(post).title"
                 :aspect-ratio="16/9"
                 max-height="200"
                 class="white--text"
@@ -23,7 +23,7 @@
 
               <v-card-actions>
                 <v-spacer />
-                <v-btn text color="primary">この記事をみる</v-btn>
+                <v-btn text color="primary" :to="linkTo(post)">この記事をみる</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -35,9 +35,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import client from "~/plugins/contentful";
 
 export default {
+  computed: {
+    ...mapGetters(['setEyeCatch']),
+    linkTo: () => obj => {
+      return { name: "posts-slug", params: { slug: obj.fields.slug } };
+    }
+  },
+
   async asyncData({ env }) {
     let posts = [];
     await client
